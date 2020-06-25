@@ -1,12 +1,12 @@
 <template>
-  <div class="wrap">
-  	<span class="n u">FOULS</span>
-  	<span class="v w">{{ fouls }}</span>
-  </div>
+	<div class="wrap">
+  		<span class="n u">FOULS</span>
+  		<span class="v w">{{ fouls }}</span>
+	</div>
 </template>
 
 <script>
- export default {
+export default {
  	props: ['team', 'foul'],
  	data() {
  		return {
@@ -26,7 +26,7 @@
 	 		}
 	 	}
 	}
- }
+}
 </script>
 
 <style scoped>

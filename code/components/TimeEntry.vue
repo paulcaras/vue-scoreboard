@@ -1,13 +1,13 @@
 <template>
-  <div class="w">
-  	<span class="v">
-  		<input v-model="minutes" maxlength="2" class="m"/>:<input v-model="seconds" maxlength="2" class="s"/>
-  	</span>
-  </div>
+	<div class="w">
+		<span class="v">
+			<input v-model="minutes" maxlength="2" class="m"/>:<input v-model="seconds" maxlength="2" class="s"/>
+		</span>
+	</div>
 </template>
 
 <script>
- export default {
+export default {
  	props: [],
  	data() {
  		return {
@@ -23,7 +23,7 @@
  			this.$emit('gameTimeSec', parseInt(n));
  		}
  	}
- }
+}
 </script>
 
 <style scoped>

@@ -5,7 +5,7 @@
 </template>
 
 <script>
- export default {
+export default {
  	props: ['team', 'score'],
  	data() {
  		return {
@@ -19,17 +19,11 @@
  	},
  	methods: {
  		adjustScore(s) {
- 			if( this.totalScore >= 0 ) {
- 				let temp = this.totalScore;
- 				temp += s;
-	 			if( temp < 0 )
-	 				temp = 0;
-	 			this.totalScore = temp;
-	 			this.$emit('adjustTeamScoreByClick', { team: this.team, score: this.totalScore })
-			} else {
-				this.totalScore = 0;
-				this.$emit('adjustTeamScoreByClick', { team: this.team, score: this.totalScore })
-			}
+			let temp = this.totalScore;
+			temp += s;
+ 			if( temp >= 0 )
+ 				this.totalScore = temp;
+			this.$emit('adjustTeamScoreByClick', { team: this.team, score: this.totalScore });
  		}
  	},
  	watch: {

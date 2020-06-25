@@ -1,11 +1,11 @@
 <template>
-  <div class="wrap">
-  	<span class="v" @click="isTimerPlay = !isTimerPlay">{{ mins }}:{{ secs }}</span>
-  </div>
+    <div class="wrap">
+        <span class="v" @click="isTimerPlay = !isTimerPlay">{{ mins }}:{{ secs }}</span>
+    </div>
 </template>
 
 <script>
- export default {
+export default {
  	props: ['isplay', 'keystroke', 'preset'],
  	data() {
  		return {
@@ -66,7 +66,7 @@
     destroyed() {
     	window.clearInterval(this.timeHandler);
     }
- }
+}
 </script>
 
 <style scoped>

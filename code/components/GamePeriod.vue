@@ -1,17 +1,21 @@
 <template>
   <div class="wrap">
   	<span class="n">PERIOD</span>
-  	<span class="v">{{ period }}</span>
+  	<span class="v" @click.left="adjustPeriod(1)" @click.right="adjustPeriod(-1)">{{ period }}</span>
   </div>
 </template>
 
 <script>
- export default {
+export default {
  	props: ['period'],
  	data() {
  		return {
-
  		};
+ 	},
+ 	methods: {
+ 		adjustPeriod(p) {
+ 			this.$emit("adjustGamePeriodByClick", p);
+ 		}
  	},
  	computed: {
  	}

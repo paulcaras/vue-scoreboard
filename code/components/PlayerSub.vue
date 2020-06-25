@@ -18,7 +18,7 @@
 </template>
 
 <script>
- export default {
+export default {
  	props: ['team', 'subpin', 'subpou'],
  	data() {
  		return {
@@ -50,7 +50,7 @@
  				this.ou2 = n;
  		}
  	}
- }
+}
 </script>
 
 <style scoped>

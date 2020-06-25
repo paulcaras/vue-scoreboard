@@ -32,7 +32,7 @@
                         <team-fouls :team="1" :foul="fouls1"/>
                     </div>
                     <div :class="['c', { active: quo.C, iactive: quo.GP }]">
-                        <game-period :period="gamePeriod"/>
+                        <game-period :period="gamePeriod" @adjustGamePeriodByClick="adjustGamePeriodByClick"/>
                     </div>
                     <div :class="['r', { active: quo.R, iactive: quo.TF }]">
                         <team-fouls :team="2" :foul="fouls2"/>
@@ -137,28 +137,29 @@
         },
         methods: {
             showL() {
-                if( this.lastTeamOpen == 2 )
+                if( this.lastTeamOpen == 2 ) {
                     this.noneAction(1);
+                    this.shotTimer1 = 24;
+                    this.shotTimer2= 24;
+                    this.isShotTimerUpdate = !this.isShotTimerUpdate;
+                    this.isShotTimerPlay2 = false;
+                }
                 this.lastTeamOpen = 1;
-                this.shotTimer1 = 24;
-                this.shotTimer2= 24;
-                this.isShotTimerPlay2 = false;
-                let q = { L: true, R: false, C: true, ST: false, TS: false, TF: false, PS: false, GT: true, GP: true };
-                this.quo = q;
+                this.quo = { L: true, R: false, C: true, ST: false, TS: false, TF: false, PS: false, GT: true, GP: true };
             },
             showR() {
-                if( this.lastTeamOpen == 1 )
+                if( this.lastTeamOpen == 1 ) {
                     this.noneAction(1);
+                    this.shotTimer1 = 24;
+                    this.shotTimer2= 24;
+                    this.isShotTimerUpdate = !this.isShotTimerUpdate;
+                    this.isShotTimerPlay1 = false;
+                }
                 this.lastTeamOpen = 2;
-                this.shotTimer1 = 24;
-                this.shotTimer2= 24;
-                this.isShotTimerPlay1 = false;
-                let q = { L: false, R: true, C: true, ST: false, TS: false, TF: false, PS: false, GT: true, GP: true };
-                this.quo = q;
+                this.quo = { L: false, R: true, C: true, ST: false, TS: false, TF: false, PS: false, GT: true, GP: true };
             },
             pushGP() {
-                let q = { L: false, R: false, C: true, ST: false, TS: false, TF: false, PS: false, GT: false, GP: true };
-                this.quo = q;     
+                this.quo = { L: false, R: false, C: true, ST: false, TS: false, TF: false, PS: false, GT: false, GP: true };     
             },
             pushTS() {
                 this.quo.ST = false;
@@ -241,6 +242,15 @@
                         this.scores2 += score;
                         this.scoresClk2 += score;
                     }
+                }
+            },
+            adjustGamePeriodByClick(p) {
+                let temp = this.gamePeriod;
+                temp += p;
+                if (temp >= 0) {
+                    this.fouls1 = 0;
+                    this.fouls2 = 0;
+                    this.gamePeriod = temp;
                 }
             },
             rtGameTimer(t) {
@@ -375,16 +385,21 @@
                             }
                             if( aaa[3] == ',' && this.fouls1 > 0 ) {
                                 this.foul1 = -1;
-                                this.fouls1 = this.fouls1 - 1;
                                 let tf = this.teamNamesH[this.playerView];
-                                tf.fouls -= 1;
-                                this.$set(this.teamNamesH, this.playerView, tf);
-                                this.sendRequest();
+                                if (tf.fouls > 0) {
+                                    this.fouls1 = this.fouls1 - 1;
+                                    tf.fouls -= 1;
+                                    this.$set(this.teamNamesH, this.playerView, tf);
+                                    this.sendRequest();
+                                }
                                 this.noneAction(3);
                             }
-                            if( aaa[3] == '.' && this.fouls1 < 5 ) {
+                            if( aaa[3] == '.' ) {
                                 this.foul1 = 1;
-                                this.fouls1 = this.fouls1 + 1;
+                                if( this.fouls1 < 5 )
+                                    this.fouls1 += 1;
+                                else
+                                    this.fouls1 = 5;
                                 let tf = this.teamNamesH[this.playerView];
                                 tf.fouls += 1;
                                 this.$set(this.teamNamesH, this.playerView, tf);
@@ -484,16 +499,21 @@
                                 }
                                 if( aaa[3] == ',' && this.fouls2 > 0 ) {
                                     this.foul2 = -1;
-                                    this.fouls2 = this.fouls2 - 1;
                                     let tf = this.teamNamesG[this.playerView];
-                                    tf.fouls -= 1;
-                                    this.$set(this.teamNamesG, this.playerView, tf);
-                                    this.sendRequest();
+                                    if (tf.fouls > 0) {
+                                        this.fouls2 = this.fouls2 - 1;
+                                        tf.fouls -= 1;
+                                        this.$set(this.teamNamesG, this.playerView, tf);
+                                        this.sendRequest();
+                                    }  
                                     this.noneAction(3);
                                 }
-                                if( aaa[3] == '.' && this.fouls2 < 5 ) {
+                                if( aaa[3] == '.' ) {
                                     this.foul2 = 1;
-                                    this.fouls2 = this.fouls2 + 1;
+                                    if( this.fouls2 < 5 )
+                                        this.fouls2 += 1;
+                                    else
+                                        this.fouls2 = 5;
                                     let tf = this.teamNamesG[this.playerView];
                                     tf.fouls += 1;
                                     this.$set(this.teamNamesG, this.playerView, tf);
@@ -538,6 +558,8 @@
             noneAction(ind) {
                 this.$set(this.actionStack, ind, null); 
             }
+        },
+        watch: {
         },
         mounted() {
             let vm = this;

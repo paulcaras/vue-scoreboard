@@ -6,7 +6,7 @@
 </template>
 
 <script>
- export default {
+export default {
  	props: ['team', 'shots', 'isplay', 'isupdate'],
  	data() {
  		return {
@@ -32,13 +32,19 @@
 	    adjustShot(t) {
 	    	if( this.team == 1 ) {
   				this.isTimerPlay1 = false;
+  				let temp = this.playStateSec1;
+                temp += t;
+                if (temp >= 0)
+                    this.playStateSec1 = temp;
                 this.$emit("rtShotClock", [1, this.playStateSec1]);
-  				this.playStateSec1 = this.playStateSec1 + t;
   			}
   			if( this.team == 2 ) {
   				this.isTimerPlay2 = false;
+                let temp = this.playStateSec2;
+                temp += t;
+                if (temp >= 0)
+                    this.playStateSec2 = temp;
                 this.$emit("rtShotClock", [2, this.playStateSec2]);
-  				this.playStateSec2 = this.playStateSec2 + t;
   			}
 	    },
 	    _tick() {
@@ -90,7 +96,7 @@
 	destroyed() {
     	window.clearInterval(this.timeHandler);
     }
- }
+}
 </script>
 
 <style scoped>

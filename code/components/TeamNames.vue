@@ -1,36 +1,36 @@
 <template>
-  <div class="wrap">
-  	<table class="tab" v-if="names.length > 0">
-  		<tr>
-  			<th>Jersey</th>
-  			<th>Player</th>
-  			<th :class="['s', { active: isscore }]">Score</th>
-  			<th :class="['f', { active: isfouls }]">Fouls</th>
-  		</tr>
+    <div class="wrap">
+    	<table class="tab" v-if="names.length > 0">
+    		<tr>
+    			<th>Jersey</th>
+    			<th>Player</th>
+    			<th :class="['s', { active: isscore }]">Score</th>
+    			<th :class="['f', { active: isfouls }]">Fouls</th>
+    		</tr>
 
-  		<tr v-for="(t, i) in names" :key="i+(team*7)" :class="{ istop5: t.isPlay == 1, issubp: issubplay && (position == i) }" @click.left="adjustScore(i, 1)" @click.right="adjustScore(i, -1)">
-  			<td>{{ t.jersey }}</td>
-  			<td>{{ t.name }}</td>
-  			<td v-if="t.score > 0" :class="{ active: playerView == i, s: isscore }">{{ t.score }}</td><td v-else :class="{ active: playerView == i, s: isscore }"></td>
-  			<td v-if="t.fouls > 0" :class="{ active: playerView == i, f: isfouls }">{{ t.fouls }}</td><td v-else :class="{ active: playerView == i, f: isfouls }"></td>
-  		</tr>
-  	</table>
-  	<table class="tab" v-else>
-  		<tr>
-  			<th>Jersey</th>
-  			<th>Player</th>
-  			<th>Score</th>
-  			<th>Fouls</th>
-  		</tr>
-  		<tr>
-  			<td colspan="4">-- no players --</td>
-  		</tr>
-  	</table>
-  </div>
+    		<tr v-for="(t, i) in names" :key="i+(team*7)" :class="{ istop5: t.isPlay == 1, issubp: issubplay && (position == i) }" @click.left="adjustScore(i, 1)" @click.right="adjustScore(i, -1)">
+    			<td>{{ t.jersey }}</td>
+    			<td>{{ t.name }}</td>
+    			<td v-if="t.score > 0" :class="{ active: playerView == i, s: isscore }">{{ t.score }}</td><td v-else :class="{ active: playerView == i, s: isscore }"></td>
+    			<td v-if="t.fouls > 0" :class="{ active: playerView == i, f: isfouls }">{{ t.fouls }}</td><td v-else :class="{ active: playerView == i, f: isfouls }"></td>
+    		</tr>
+    	</table>
+    	<table class="tab" v-else>
+    		<tr>
+    			<th>Jersey</th>
+    			<th>Player</th>
+    			<th>Score</th>
+    			<th>Fouls</th>
+    		</tr>
+    		<tr>
+    			<td colspan="4">-- no players --</td>
+    		</tr>
+    	</table>
+    </div>
 </template>
 
 <script>
- export default {
+export default {
  	props: ['team', 'names', 'isscore', 'isfouls', 'issubplay', 'position', 'score', 'foul'],
  	data() {
  		return {
@@ -47,7 +47,7 @@
             this.$emit('adjustNameScoreByClick', { id: i, team: this.team, score: s });
         }
     }
- }
+}
 </script>
 
 <style scoped>

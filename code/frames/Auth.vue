@@ -8,9 +8,5 @@
 </script>
 
 <style scoped>
-  .load-w {
-    height: 100vh;
-    background: #ffffff;
-    box-sizing: border-box;
-  }
+.load-w { height: 100vh; background: #ffffff; box-sizing: border-box; user-select: none; }
 </style>
